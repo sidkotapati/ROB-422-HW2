@@ -194,7 +194,28 @@ def optimize_single_action(goal_state, current_state, reference_control, A, B, s
     #define the control constraints and the objective, then use cvxpy to solve the QP
     ### YOUR CODE HERE ###
 
+    # Define the control constraints
+    constraints = [
+        control[ControlIndices.SPEED] >= speed_limit[0],  # speed lower bound
+        control[ControlIndices.SPEED] <= speed_limit[1],  # speed upper bound
+        control[ControlIndices.TURN] >= turn_limit[0],    # turn rate lower bound
+        control[ControlIndices.TURN] <= turn_limit[1]     # turn rate upper bound
+    ]
 
+    # Define the objective function
+    predicted_state = current_state + A @ (current_state - current_state) + B @ (control - reference_control)
+    objective = cvx.Minimize(cvx.norm(predicted_state - goal_state, 2))
+
+    # Define and solve the QP problem
+    problem = cvx.Problem(objective, constraints)
+    problem.solve()
+
+    # Return the control solution if it's available
+    if control.value is not None:
+        return control.value
+    else:
+        # Control has not been computed
+        return np.zeros(B.shape[1])
 
     ### YOUR CODE HERE ###
 
