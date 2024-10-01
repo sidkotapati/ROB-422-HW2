@@ -1,7 +1,7 @@
 from backtracking import backtracking as bt
 import numpy as np
 
-def newtonsmeth(x, f, grad, hess):
+def newtons_meth(x, f, grad, hess):
     epsilon = 0.0001
     x_vals = [x]
     lambda_sqrd = np.transpose(grad(x)) * (1/hess(x)) * grad(x)

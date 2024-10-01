@@ -53,6 +53,9 @@ if __name__ == "__main__":
     a = hyperplanes[:][:,0:2].T # each column is the "a" part of a hyperplane
     b = hyperplanes[:,2] # each row is the "b" part of a hyperplane (only one element in each row)
 
+    print(a)
+    print(b)
+
     #plot the starting point
     plt.plot(x[0,0],x[1,0], 'gx')
 
@@ -74,16 +77,17 @@ if __name__ == "__main__":
             #you will also need to compute the second derivative f'' (fprimeprime) in the same way
 
             #compute fprime for just the optimization force first
-            fprime = ###YOUR CODE HERE### 
+            fprime = t*c
             
             #compute fprimeprime for just the optimization force first
-            fprimeprime = ###YOUR CODE HERE### 
+            fprimeprime = np.zeros((2,2))
+
 
             #compute the first and second derivatives from each hyperplane and aggregate
             for j in range(0,numplanes):
-                fprime_for_plane_j = ###YOUR CODE HERE###
+                fprime_for_plane_j = -1*a[:,j] / (b[j] - (a[:,j].T@x))
 
-                fprimeprime_for_plane_j = ###YOUR CODE HERE###
+                fprimeprime_for_plane_j = (a[:,j]@a[:,j].T)/((b[j] - (a[:,j].T@x))**2)
 
                 fprime = fprime - fprime_for_plane_j # put in the contribution of hyperplane j to fprime
                 fprimeprime = fprimeprime + fprimeprime_for_plane_j # put in the contribution of hyperplane j to fprimeprime
@@ -91,14 +95,15 @@ if __name__ == "__main__":
             #you might want to print fprime and fprimeprime here to debug (but it will slow things down)
 
             #the step according to Newton's method (in terms of fprime and fprimeprime)
-            step = ###YOUR CODE HERE###
+            step = -np.linalg.inv(fprimeprime)@fprime
 
             #compute the Newton decrement squared (in terms of step and fprimeprime)
-            lambda2 =  ###YOUR CODE HERE###
+            lambda2 = fprime.T @ step
 
             #check if we've reached the Newton's method stopping condition
             #if so, break out of Newton's method
-            if(###YOUR CODE HERE###):
+            print(lambda2)
+            if(abs(lambda2/2) <= newton_epsilon):
                 break
     
             #now we have a direction to move the point x (i.e. the Newton step) but we don't 
@@ -127,9 +132,9 @@ if __name__ == "__main__":
                     fnew = fnew - np.log(dist)
 
                 #use alpha and beta to generate new guess for how much to move along the step direction
-                if(pastboundary or ###YOUR CODE HERE###):  #put in the check for terminating backtracking line search
+                if(pastboundary or fnew > f + alpha*k*lambda2):  #put in the check for terminating backtracking line search
                     #if we're not done
-                    k = ###YOUR CODE HERE###
+                    k = beta*k
                 else:
                     break
             
@@ -146,7 +151,7 @@ if __name__ == "__main__":
 
 
         #compute the duality gap (in terms of numplanes and t)
-        duality_gap = ###YOUR CODE HERE###
+        duality_gap = numplanes/t
 
         #If the duality gap is below our error tolerance (epsilon), we're done!
         if duality_gap < epsilon:
@@ -154,7 +159,7 @@ if __name__ == "__main__":
     
         #now that we've figured out the optimal point for this amount of optimization "force," increase the optimization force to a larger value
         #compute the new optimization force magnitude
-        t = ###YOUR CODE HERE###
+        t = mu * t
 
     ###############End outer loop (Barrier Method)#####################
 

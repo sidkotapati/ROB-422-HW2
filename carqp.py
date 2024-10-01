@@ -147,6 +147,16 @@ def linearize_dynamics_numerically(x_r, u_r, h, true_dynamics):
     #Implement Newton's difference quotient using h
     #### YOUR CODE HERE ####
 
+    for i in range(n):
+        x_perturbed = xu_r  # Copy the current point
+        x_perturbed[i] += h  # Perturb the i-th component of x
+
+        # Compute f(x + h)
+        f_perturbed = f(x_perturbed)
+
+        # Loop over all the output components (m rows)
+        for j in range(m):
+            Jacobian[j, i] = (f_perturbed[j] - f(xu_r)[j]) / h  # Partial derivative of output j w.r.t input i
 
 
 

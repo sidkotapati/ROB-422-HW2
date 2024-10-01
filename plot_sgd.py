@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from SGDtest import fsum, fiprime
 
 if __name__ == "__main__":
-    print("takes about 10 seconds to run")
+    print("takes about 20-30 seconds to run, Im so sorry")
     x0 = -5  # Starting point
     nFunctions = 10000  # Number of fi functions
 
@@ -21,7 +21,7 @@ if __name__ == "__main__":
 
     # Plot fsum(x(i)) vs i
     plt.figure()
-    plt.plot(x_vals, fsum_vals, color='blue', label='fsum(x(i))')
+    plt.plot(fsum_vals, color='blue', label='fsum(x(i))')
     plt.xlabel('Iteration')
     plt.ylabel('fsum(x)')
     plt.title('Stochastic Gradient Descent: fsum(x(i)) vs. Iteration')
