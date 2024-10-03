@@ -1,5 +1,5 @@
 from gradientdescent import grad_descent
-from newtonsmethod import newtonsmeth
+from newtonsmethod import newtons_meth
 import matplotlib.pyplot as plt
 import numpy as np
 import math
@@ -17,7 +17,7 @@ if __name__ == "__main__":
     x0 = 5
 
     x_grad = grad_descent(x0, f, grad_f)
-    x_nm = newtonsmeth(x0, f, grad_f, hess_f)
+    x_nm = newtons_meth(x0, f, grad_f, hess_f)
 
     # Generate values for the objective function over a range
     x_range = np.linspace(-10, 10, 400)

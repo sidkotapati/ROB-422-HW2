@@ -11,7 +11,7 @@ a = np.asmatrix([[ 0.7071, -0.7071,  0.7071, -0.7071],
 b = np.array([1.5, 1.5,1.0 ,1.0 ])
 # Define and solve the CVXPY problem.
 x = cp.Variable(2)
-prob = cp.Problem(cp.Minimize(c.transpose()@x), [a @ x <= b])
+prob = cp.Problem(cp.Minimize(c.transpose()@x), [a.T @ x <= b])
 prob.solve()
 
 # Print result.

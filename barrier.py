@@ -6,7 +6,7 @@ def DrawHyperplanes(hyperplanes):
     linescale = 2
     plt.figure(1)
     numplanes = hyperplanes.shape[0]
-    x0 = np.mat(np.zeros((2,numplanes)))
+    x0 = np.asmatrix(np.zeros((2,numplanes)))
     for i in range(0,numplanes):
         a = hyperplanes[i][:,0:2].T
         b = hyperplanes[i,2]
@@ -31,7 +31,7 @@ if __name__ == "__main__":
     beta = 0.6 #for back-tracking line search
 
     #these are defined as [a b]
-    hyperplanes = np.mat([[0.7071,    0.7071, 1.5], 
+    hyperplanes = np.asmatrix([[0.7071,    0.7071, 1.5], 
                     [-0.7071,    0.7071, 1.5],
                     [0.7071,    -0.7071, 1],
                     [-0.7071,    -0.7071, 1]])
@@ -41,10 +41,10 @@ if __name__ == "__main__":
     numplanes = hyperplanes.shape[0]
 
     #the optimization function c:
-    c = np.mat([2, 1]).T
+    c = np.asmatrix([2, 1]).T
 
     #pick a starting point (this can be done autonomously but we'll do it by hand)
-    x = np.mat([0, 0]).T
+    x = np.asmatrix([0, 0]).T
 
     #now draw the constraining hyperplanes
     DrawHyperplanes(hyperplanes)
